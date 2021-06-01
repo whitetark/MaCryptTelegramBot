@@ -16,7 +16,7 @@ namespace TelegramBot
         private static string _address;
         public MaCryptClient()
         {
-            _address = "https://localhost:5001";
+            _address = "https://macryptapi20210531220655.azurewebsites.net";
 
             _client = new HttpClient();
             _client.BaseAddress = new Uri(_address);
@@ -39,12 +39,12 @@ namespace TelegramBot
             var newAccountSerialized = System.Text.Json.JsonSerializer.Serialize(account);
             var stringContent = new StringContent(newAccountSerialized, Encoding.UTF8, "application/json");
 
-            _ = await _client.PutAsync("/crypto/update", stringContent);
+            _ = await _client.PutAsync("/Crypto/update", stringContent);
         }
 
         public async void DeleteAccount(string chatId)
         {
-            _ = await _client.DeleteAsync($"/crypto/delete/{chatId}");
+            _ = await _client.DeleteAsync($"/Crypto/delete/{chatId}");
         }
 
         public async void CreateAccount(Account account)
@@ -52,7 +52,7 @@ namespace TelegramBot
             var newAccountSerialized = System.Text.Json.JsonSerializer.Serialize(account);
             var stringContent = new StringContent(newAccountSerialized, Encoding.UTF8, "application/json");
 
-            _ = await _client.PostAsync("/crypto/create", stringContent);
+            _ = await _client.PostAsync("/Crypto/create", stringContent);
         }
 
         public async Task<CryptoInfo> GetCryptoInfo(string symbol, string preference)
@@ -81,7 +81,7 @@ namespace TelegramBot
 
         public async Task<WalletInfo> GetWalletInfo(string adress)
         {
-            var response = await _client.GetAsync($"/crypto/wallet?adress={adress}");
+            var response = await _client.GetAsync($"/Crypto/wallet?adress={adress}");
             response.EnsureSuccessStatusCode();
 
             var content = response.Content.ReadAsStringAsync().Result;

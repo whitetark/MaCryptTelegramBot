@@ -1,0 +1,17 @@
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\TelegramBot.exe
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\TelegramBot.deps.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\TelegramBot.runtimeconfig.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\TelegramBot.runtimeconfig.dev.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\TelegramBot.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\TelegramBot.pdb
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\RestSharp.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\Telegram.Bot.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.csprojAssemblyReference.cache
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.AssemblyInfoInputs.cache
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.AssemblyInfo.cs
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.csproj.CoreCompileInputs.cache
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.csproj.CopyComplete
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.pdb
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.genruntimeconfig.cache

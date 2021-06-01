@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Model;
 using static TelegramBot.Model.WalletInfo;
@@ -17,6 +18,7 @@ namespace TelegramBot
         Account account;
         Account result;
         string recentCallBack;
+        Timer timer;
         public TelegramBotProcess(string token)
         {
             _token = token;
@@ -41,9 +43,20 @@ namespace TelegramBot
                                 offset = update.Id + 1;
                             }
                         }
+                        if (account != null)
+                        {
+                            if (account.Subs.Count != 0)
+                            {
+                                if (timer == null)
+                                {
+                                    int num = 0;
+                                    TimerCallback tm = new TimerCallback(SubsProcess);
+                                    timer = new Timer(tm, num, 0, 3600000);
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex) { Console.WriteLine(ex.Message); }
-
                     Thread.Sleep(1000);
                 }
             }
@@ -62,9 +75,8 @@ namespace TelegramBot
                         {
                             case "/start":
                                 account.ChatId = Convert.ToString(update.Message.Chat.Id);
-                                _ = await _client.SendTextMessageAsync(update.Message.Chat.Id, "Окно приветствия", replyMarkup: GetPreferenceButton());
+                                _ = await _client.SendTextMessageAsync(update.Message.Chat.Id, "Добро пожаловать в MaCrypt! Что же это такое?\nMaCrypt - это крипто-ассистент, который немного упростит жизнь всем любителям криптовалюты\n\nСреди функций можно найти:\n\n-Данные о вашем кошельке\n-Данные о последних транзакциях\n-Актуальный топ-криптовалюты\n-Актуальная информация про криптовалюту\n-Система подписок\n\nДля использования бота, вам необходимо создать аккаунт, выберите снизу курс, за которым вам будут показаны ценники:", replyMarkup: GetPreferenceButton());
                                 _maCryptClient.CreateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Поздравляю, вы успешно создали аккаунт", replyMarkup: GetButtons());
                                 break;
                             default:
                                 await _client.SendTextMessageAsync(update.Message.Chat.Id, "Вам необходимо создать аккаунт! Напишите /start");
@@ -136,7 +148,18 @@ namespace TelegramBot
                                         } 
                                         catch
                                         {
-                                            _ = await _client.SendTextMessageAsync(account.ChatId, "Вы ввели неправильный символ", replyMarkup: GetButtons());
+                                            try
+                                            {
+                                                var responsetemp  = await _maCryptClient.GetCryptoInfo("BTC", "USD");
+                                                if(responsetemp != null)
+                                                {
+                                                    _ = await _client.SendTextMessageAsync(account.ChatId, "Вы ввели неправильный символ", replyMarkup: GetButtons());
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                _ = await _client.SendTextMessageAsync(account.ChatId, "Простите, в данный момент сервис Coinlib не отвечает,\nПопробуйте позже", replyMarkup: GetButtons());
+                                            }
                                         }
                                         recentCallBack = "";
                                         break;
@@ -156,29 +179,29 @@ namespace TelegramBot
                             case "uah":
                                 account.Preference = "UAH";
                                 _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс UAH");
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс UAH", replyMarkup: GetButtons());
                                 break;
                             case "usd":
                                 account.Preference = "USD";
                                 _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс USD");
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс USD", replyMarkup: GetButtons());
                                 break;
                             case "rub":
                                 account.Preference = "RUB";
                                 _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс RUB");
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс RUB", replyMarkup: GetButtons());
                                 break;
                             case "eur":
                                 account.Preference = "EUR";
                                 _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс EUR");
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Вы выбрали курс EUR", replyMarkup: GetButtons());
                                 break;
                             case "crptinf":
                                 _ = await _client.SendTextMessageAsync(account.ChatId, "Введите символ желаемой криптовалюты:\nНапример: BTC, ETH, LINK");
                                 recentCallBack = "crptinf";
                                 break;
                             case "crptlst":
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "В каком порядке вы хотите увидеть порядок?", replyMarkup: GetOrderButton());
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "В каком порядке вы хотите увидеть список?", replyMarkup: GetOrderButton());
                                 break;
                             case "deleteacc":
                                 _ = await _client.SendTextMessageAsync(account.ChatId, "Вы точно хотите удалить аккаунт?", replyMarkup: GetConfirmationButtons());
@@ -249,6 +272,33 @@ namespace TelegramBot
                                 account.WalletAdresses.RemoveAt(2);
                                 _maCryptClient.UpdateAccount(account);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, "Кошелёк успешно удалён", replyMarkup: GetButtons());
+                                break;
+                            case "sub1":
+                                string maintextsub = $"Вы подписаны на следующую криптовалюту: {account.Subs[0]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+                                _ = await _client.SendTextMessageAsync(account.ChatId, maintextsub, replyMarkup: GetDeleteSub1Button());
+                                break;
+                            case "sub2":
+                                string maintextsub1 = $"Вы подписаны на следующую криптовалюту: {account.Subs[1]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+                                _ = await _client.SendTextMessageAsync(account.ChatId, maintextsub1, replyMarkup: GetDeleteSub2Button());
+                                break;
+                            case "sub3":
+                                string maintextsub2 = $"Вы подписаны на следующую криптовалюту: {account.Subs[2]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+                                _ = await _client.SendTextMessageAsync(account.ChatId, maintextsub2, replyMarkup: GetDeleteSub3Button());
+                                break;
+                            case "sub1delete":
+                                account.Subs.RemoveAt(0);
+                                _maCryptClient.UpdateAccount(account);
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
+                                break;
+                            case "sub2delete":
+                                account.Subs.RemoveAt(1);
+                                _maCryptClient.UpdateAccount(account);
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
+                                break;
+                            case "sub3delete":
+                                account.Subs.RemoveAt(2);
+                                _maCryptClient.UpdateAccount(account);
+                                _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
                                 break;
                             case "rankasc":
                                 try
@@ -394,6 +444,66 @@ namespace TelegramBot
                     Console.WriteLine(update.Type + " Not ipmlemented!");
                     break;
             }
+        }
+        public async void SubsProcess(object state)
+        {
+            try
+            {
+                foreach (string s in account.Subs)
+                {
+                    var response = await _maCryptClient.GetCryptoInfo(s, account.Preference);
+                    if (response.delta_1h >= 1.1)
+                    {
+                        _ = await _client.SendTextMessageAsync(account.ChatId, $"Alert! Похоже {s} за час вырос на {response.delta_1h}%");
+                        Console.ReadLine();
+                    }
+                    else if (response.delta_1h <= -1.1)
+                    {
+                        _ = await _client.SendTextMessageAsync(account.ChatId, $"Alert! Похоже {s} за час упал на {response.delta_1h}%");
+                        Console.ReadLine();
+                    }
+                }
+            } catch (Exception ex)
+            {
+                _ = await _client.SendTextMessageAsync(account.ChatId, "[Ошибка подписки]\nПростите, в данный момент сервис Coinlib не отвечает", replyMarkup: GetButtons());
+                Console.WriteLine("There is your mistake:" + ex);
+            }
+        }
+        private IReplyMarkup GetDeleteSub1Button()
+        {
+            List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
+            InlineKeyboardButton deleteb = new InlineKeyboardButton();
+            deleteb.Text = "Удалить подписку";
+            deleteb.CallbackData = "sub1delete";
+            delete.Add(deleteb);
+
+            InlineKeyboardMarkup inline = new InlineKeyboardMarkup(delete);
+
+            return inline;
+        }
+        private IReplyMarkup GetDeleteSub2Button()
+        {
+            List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
+            InlineKeyboardButton deleteb = new InlineKeyboardButton();
+            deleteb.Text = "Удалить подписку";
+            deleteb.CallbackData = "sub2delete";
+            delete.Add(deleteb);
+
+            InlineKeyboardMarkup inline = new InlineKeyboardMarkup(delete);
+
+            return inline;
+        }
+        private IReplyMarkup GetDeleteSub3Button()
+        {
+            List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
+            InlineKeyboardButton deleteb = new InlineKeyboardButton();
+            deleteb.Text = "Удалить подписку";
+            deleteb.CallbackData = "sub3delete";
+            delete.Add(deleteb);
+
+            InlineKeyboardMarkup inline = new InlineKeyboardMarkup(delete);
+
+            return inline;
         }
         private IReplyMarkup GetDeleteWallet1Button()
         {
