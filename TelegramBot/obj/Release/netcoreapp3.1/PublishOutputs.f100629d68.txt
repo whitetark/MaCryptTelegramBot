@@ -1,0 +1,9 @@
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\Settings.job
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\TelegramBot.exe
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\TelegramBot.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\TelegramBot.deps.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\TelegramBot.runtimeconfig.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\TelegramBot.pdb
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\Newtonsoft.Json.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\RestSharp.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\PubTmp\Out\app_data\Jobs\Continuous\TelegramBot\Telegram.Bot.dll

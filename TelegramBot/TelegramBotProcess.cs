@@ -89,6 +89,12 @@ namespace TelegramBot
                         account = result;
                         switch (text)
                         {
+                            case "/info":
+                                await _client.SendTextMessageAsync(update.Message.Chat.Id, "Как работать c MaCrypt?\n\nДля того, чтобы пользоваться MaCrypt используйте клавиатуру, которая расположена снизу " +
+                                    "под строкой ввода, для сообщений\n\n+ Кнопка `Криптовалюта` откроет вам две новые кнопки, которые дадут вам информацию по поводу желаемой криптовалюты по `Информация про криптовалюту` или топа на рынке по заданой очереди по `Топ-10 Криптовалюты`.\n+ Кнопка `Мои кошельки` даст вам" +
+                                    "возможность сохранить в вашем аккаунте желаемый кошелёк по кнопке `Добавить кошелёк` и просмотреть основную информацию и пять последних транзакций по кнопке с адрессом вашего кошелька. Удалить кошелёк вы сможете нажав на нужный вам адресс и нажав снизу кнопку `Удалить кошелёк`.\n+ " +
+                                    "Кнопка `Мои подписки` даст вам возможность создать подписку на желаемую криптовалюту по кнопке `Создать подписку` и отменить подписку нажав по нужной вам криптовалюте и нажав кнопку `Отменить подписку`.\n+ Кнопка `Мои настройки` даст вам возможность удалить аккаунт по кнопке `Удалить аккаунт` и изменить курс за которым вы хотите отслеживать ценники по кнопке `Изменить курс`.\n\nУдачного дня, надеюсь MaCrypt вас не разочарует", replyMarkup: GetButtons());
+                                break;
                             case "/start":
                                 await _client.SendTextMessageAsync(update.Message.Chat.Id, "У вас уже есть аккаунт", replyMarkup: GetButtons());
                                 break;
@@ -384,7 +390,7 @@ namespace TelegramBot
         {
             account.Subs.RemoveAt(id);
             _maCryptClient.UpdateAccount(account);
-            _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
+            _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно отменена", replyMarkup: GetButtons());
         }
         public async void SubsProcess(object state)
         {
@@ -420,7 +426,7 @@ namespace TelegramBot
         {
             List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
             InlineKeyboardButton deleteb = new InlineKeyboardButton();
-            deleteb.Text = "Удалить подписку";
+            deleteb.Text = "Отменить подписку";
             deleteb.CallbackData = "sub1delete";
             delete.Add(deleteb);
 
@@ -432,7 +438,7 @@ namespace TelegramBot
         {
             List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
             InlineKeyboardButton deleteb = new InlineKeyboardButton();
-            deleteb.Text = "Удалить подписку";
+            deleteb.Text = "Отменить подписку";
             deleteb.CallbackData = "sub2delete";
             delete.Add(deleteb);
 
@@ -444,7 +450,7 @@ namespace TelegramBot
         {
             List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
             InlineKeyboardButton deleteb = new InlineKeyboardButton();
-            deleteb.Text = "Удалить подписку";
+            deleteb.Text = "Отменить подписку";
             deleteb.CallbackData = "sub3delete";
             delete.Add(deleteb);
 
@@ -680,8 +686,8 @@ namespace TelegramBot
             buttons1.Add(deleteAccount);
             buttons2.Add(changePref);
 
-            rowList.Add(buttons1);
             rowList.Add(buttons2);
+            rowList.Add(buttons1);
 
             InlineKeyboardMarkup inline = new InlineKeyboardMarkup(rowList);
 
