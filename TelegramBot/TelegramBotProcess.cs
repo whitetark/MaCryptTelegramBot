@@ -225,97 +225,51 @@ namespace TelegramBot
                                 recentCallBack = "addsub";
                                 break;
                             case "wallet1":
-                               var response0 = await _maCryptClient.GetWalletInfo(result.WalletAdresses[0]);
-                                string halftext =  $"[Общая информация]\nАдресс: {response0.AddressOfOwner},\nКоличество транзакций: {response0.NumOfTransactions},\nВсего получено: {response0.TotalReceived},\nВсего отправлено: {response0.TotalSent},\nНынешний баланс: {response0.CurrentBalance},\nПодробная информация: www.blockchain.com/btc/address/{response0.AddressOfOwner}\n\n";
-                                string txstext = "[Последние транзакции]\n\n";
-                                foreach (Transaction transaction in response0.Transactions)
-                                {
-                                    txstext += $"Результат транзакции: {transaction.ResultOfTransaction},\nКомиссия: {transaction.Fee},\nИтоговый баланс: {transaction.BalanceAfter},\nПодробная информация: www.blockchain.com/btc/tx/{transaction.Hash} \n\n";
-                                }
-                                string maintext1 = halftext + txstext;
+                                var maintext1 = await WalletShowProcess(0);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, maintext1, replyMarkup:GetDeleteWallet1Button());
-
                                 break;
                             case "wallet2":
-                                var response1 = await _maCryptClient.GetWalletInfo(result.WalletAdresses[1]);
-                                string halftext1 = $"[Общая информация]\nАдресс: {response1.AddressOfOwner},\nКоличество транзакций: {response1.NumOfTransactions},\nВсего получено: {response1.TotalReceived},\nВсего отправлено: {response1.TotalSent},\nНынешний баланс: {response1.CurrentBalance},\nПодробная информация: www.blockchain.com/btc/address/{response1.AddressOfOwner}\n\n";
-                                string txstext1 = "[Последние транзакции]\n\n";
-                                foreach (Transaction transaction in response1.Transactions)
-                                {
-                                    txstext1 += $"Результат транзакции: {transaction.ResultOfTransaction},\nКомиссия: {transaction.Fee},\nИтоговый баланс: {transaction.BalanceAfter},\nПодробная информация: www.blockchain.com/btc/tx/{transaction.Hash} \n\n";
-                                }
-                                string maintext11 = halftext1 + txstext1;
+                                var maintext11 = await WalletShowProcess(1);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, maintext11, replyMarkup: GetDeleteWallet2Button());
                                 break;
                             case "wallet3":
-                                var response2 = await _maCryptClient.GetWalletInfo(result.WalletAdresses[2]);
-                                string halftext2 = $"[Общая информация]\nАдресс: {response2.AddressOfOwner},\nКоличество транзакций: {response2.NumOfTransactions},\nВсего получено: {response2.TotalReceived},\nВсего отправлено: {response2.TotalSent},\nНынешний баланс: {response2.CurrentBalance},\nПодробная информация: www.blockchain.com/btc/address/{response2.AddressOfOwner}\n\n";
-                                string txstext2 = "[Последние транзакции]\n\n";
-                                foreach (Transaction transaction in response2.Transactions)
-                                {
-                                    txstext2 += $"Результат транзакции: {transaction.ResultOfTransaction},\nКомиссия: {transaction.Fee},\nИтоговый баланс: {transaction.BalanceAfter},\nПодробная информация: www.blockchain.com/btc/tx/{transaction.Hash} \n\n";
-                                }
-                                string maintext12 = halftext2 + txstext2;
+                                var maintext12 = await WalletShowProcess(1);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, maintext12, replyMarkup: GetDeleteWallet3Button());
                                 break;
                             case "wallet1delete":
-                                account.WalletAdresses.RemoveAt(0);
-                                _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId,"Кошелёк успешно удалён", replyMarkup: GetButtons());
+                                WalletDeleteProcess(0);
                                 break;
                             case "wallet2delete":
-                                account.WalletAdresses.RemoveAt(1);
-                                _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Кошелёк успешно удалён", replyMarkup: GetButtons());
+                                WalletDeleteProcess(1);
                                 break;
                             case "wallet3delete":
-                                account.WalletAdresses.RemoveAt(2);
-                                _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Кошелёк успешно удалён", replyMarkup: GetButtons());
+                                WalletDeleteProcess(2);
                                 break;
                             case "sub1":
-                                string maintextsub = $"Вы подписаны на следующую криптовалюту: {account.Subs[0]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+                                var maintextsub = SubsShowProcess(0);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, maintextsub, replyMarkup: GetDeleteSub1Button());
                                 break;
                             case "sub2":
-                                string maintextsub1 = $"Вы подписаны на следующую криптовалюту: {account.Subs[1]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+                                var maintextsub1 = SubsShowProcess(1);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, maintextsub1, replyMarkup: GetDeleteSub2Button());
                                 break;
                             case "sub3":
-                                string maintextsub2 = $"Вы подписаны на следующую криптовалюту: {account.Subs[2]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+                                var maintextsub2 = SubsShowProcess(2);
                                 _ = await _client.SendTextMessageAsync(account.ChatId, maintextsub2, replyMarkup: GetDeleteSub3Button());
                                 break;
                             case "sub1delete":
-                                account.Subs.RemoveAt(0);
-                                _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
+                                SubsDeleteProcess(0);
                                 break;
                             case "sub2delete":
-                                account.Subs.RemoveAt(1);
-                                _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
+                                SubsDeleteProcess(1);
                                 break;
                             case "sub3delete":
-                                account.Subs.RemoveAt(2);
-                                _maCryptClient.UpdateAccount(account);
-                                _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
+                                SubsDeleteProcess(2);
                                 break;
                             case "rankasc":
                                 try
                                 {
-                                    var response = await _maCryptClient.GetCryptoList("rank_asc", result.Preference);
-                                    string[] vs = new string[10];
-                                    int i = 0;
-                                    foreach (Coin coin in response.coins)
-                                    {
-                                        vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
-                                        i++;
-                                    }
-                                    string maintext = $"[Курс: {result.Preference},\nПорядок: Убывание По Рангу]\n\n";
-                                    foreach (string text1 in vs)
-                                    {
-                                        maintext += text1;
-                                    }
+                                    var maintext = await OrderShowProcess("rank_asc");
                                     _ = await _client.SendTextMessageAsync(account.ChatId, maintext, replyMarkup: GetButtons());
                                 } catch
                                 {
@@ -325,19 +279,7 @@ namespace TelegramBot
                             case "rankdesc":
                                 try
                                 {
-                                    var response = await _maCryptClient.GetCryptoList("rank_desc", result.Preference);
-                                    string[] vs = new string[10];
-                                    int i = 0;
-                                    foreach (Coin coin in response.coins)
-                                    {
-                                        vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
-                                        i++;
-                                    }
-                                    string maintext = $"[Курс: {result.Preference},\nПорядок: Возрастание По Рангу]\n\n";
-                                    foreach (string text1 in vs)
-                                    {
-                                        maintext += text1;
-                                    }
+                                    var maintext = await OrderShowProcess("rank_desc");
                                     _ = await _client.SendTextMessageAsync(account.ChatId, maintext, replyMarkup: GetButtons());
                                 }
                                 catch
@@ -348,19 +290,7 @@ namespace TelegramBot
                             case "volumedesc":
                                 try
                                 {
-                                    var response = await _maCryptClient.GetCryptoList("volume_desc", result.Preference);
-                                    string[] vs = new string[10];
-                                    int i = 0;
-                                    foreach (Coin coin in response.coins)
-                                    {
-                                        vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
-                                        i++;
-                                    }
-                                    string maintext = $"[Курс: {result.Preference},\nПорядок: Возрастание По Объёму]\n\n";
-                                    foreach (string text1 in vs)
-                                    {
-                                        maintext += text1;
-                                    }
+                                    var maintext = await OrderShowProcess("volume_desc");
                                     _ = await _client.SendTextMessageAsync(account.ChatId, maintext, replyMarkup: GetButtons());
                                 }
                                 catch
@@ -371,19 +301,7 @@ namespace TelegramBot
                             case "priceasc":
                                 try
                                 {
-                                    var response = await _maCryptClient.GetCryptoList("price_asc", result.Preference);
-                                    string[] vs = new string[10];
-                                    int i = 0;
-                                    foreach (Coin coin in response.coins)
-                                    {
-                                        vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
-                                        i++;
-                                    }
-                                    string maintext = $"[Курс: {result.Preference},\nПорядок: Убывание По Цене]\n\n";
-                                    foreach (string text1 in vs)
-                                    {
-                                        maintext += text1;
-                                    }
+                                    var maintext = await OrderShowProcess("price_asc");
                                     _ = await _client.SendTextMessageAsync(account.ChatId, maintext, replyMarkup: GetButtons());
                                 }
                                 catch
@@ -394,19 +312,7 @@ namespace TelegramBot
                             case "pricedesc":
                                 try
                                 {
-                                    var response = await _maCryptClient.GetCryptoList("price_desc", result.Preference);
-                                    string[] vs = new string[10];
-                                    int i = 0;
-                                    foreach (Coin coin in response.coins)
-                                    {
-                                        vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
-                                        i++;
-                                    }
-                                    string maintext = $"[Курс: {result.Preference},\nПорядок: Возрастание По Цене]\n\n";
-                                    foreach (string text1 in vs)
-                                    {
-                                        maintext += text1;
-                                    }
+                                    var maintext = await OrderShowProcess("price_desc");
                                     _ = await _client.SendTextMessageAsync(account.ChatId, maintext, replyMarkup: GetButtons());
                                 }
                                 catch
@@ -417,19 +323,7 @@ namespace TelegramBot
                             case "volumeasc":
                                 try
                                 {
-                                    var response = await _maCryptClient.GetCryptoList("volume_asc", result.Preference);
-                                    string[] vs = new string[10];
-                                    int i = 0;
-                                    foreach (Coin coin in response.coins)
-                                    {
-                                        vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
-                                        i++;
-                                    }
-                                    string maintext = $"[Курс: {result.Preference},\nПорядок: Убывание По Объёму]\n\n";
-                                    foreach (string text1 in vs)
-                                    {
-                                        maintext += text1;
-                                    }
+                                    var maintext = await OrderShowProcess("volume_asc");
                                     _ = await _client.SendTextMessageAsync(account.ChatId, maintext, replyMarkup: GetButtons());
                                 }
                                 catch
@@ -444,6 +338,53 @@ namespace TelegramBot
                     Console.WriteLine(update.Type + " Not ipmlemented!");
                     break;
             }
+        }
+
+        public async Task<string> WalletShowProcess(int id)
+        {
+            var response1 = await _maCryptClient.GetWalletInfo(result.WalletAdresses[id]);
+            string halftext = $"[Общая информация]\nАдресс: {response1.AddressOfOwner},\nКоличество транзакций: {response1.NumOfTransactions},\nВсего получено: {response1.TotalReceived},\nВсего отправлено: {response1.TotalSent},\nНынешний баланс: {response1.CurrentBalance},\nПодробная информация: www.blockchain.com/btc/address/{response1.AddressOfOwner}\n\n";
+            string txstext = "[Последние транзакции]\n\n";
+            foreach (Transaction transaction in response1.Transactions)
+            {
+                txstext += $"Результат транзакции: {transaction.ResultOfTransaction},\nКомиссия: {transaction.Fee},\nИтоговый баланс: {transaction.BalanceAfter},\nПодробная информация: www.blockchain.com/btc/tx/{transaction.Hash} \n\n";
+            }
+            string maintext = halftext + txstext;
+            return maintext;
+        }
+        public async Task<string> OrderShowProcess(string order)
+        {
+            var response = await _maCryptClient.GetCryptoList(order, result.Preference);
+            string[] vs = new string[10];
+            int i = 0;
+            foreach (Coin coin in response.coins)
+            {
+                vs[i] = $"Символ: {coin.symbol},\nИмя крипты: {coin.name},\nРанг в топе: {coin.rank},\nЦена: {coin.price.ToString("0.00000", CultureInfo.InvariantCulture)},\nКапитализация: {coin.market_cap.ToString("#,#.00", CultureInfo.InvariantCulture)},\nОбъём за 24 часа: {coin.volume_24h.ToString("#,#.00", CultureInfo.InvariantCulture)},\nИзменение за сутки: {coin.delta_24h}\n\n";
+                i++;
+            }
+            string maintext = $"[Курс: {result.Preference},\nПорядок: {order}]\n\n";
+            foreach (string text1 in vs)
+            {
+                maintext += text1;
+            }
+            return maintext;
+        }
+        public string SubsShowProcess(int id)
+        {
+            string maintextsub = $"Вы подписаны на следующую криптовалюту: {account.Subs[id]}\n\nПодписка даст вам возможность узнать каждый час если криптовалюта изменилась больше чем на 0.6%. В будущем возможно появление введения рубежов";
+            return maintextsub;
+        }
+        public async void WalletDeleteProcess(int id)
+        {
+            account.WalletAdresses.RemoveAt(id);
+            _maCryptClient.UpdateAccount(account);
+            _ = await _client.SendTextMessageAsync(account.ChatId, "Кошелёк успешно удалён", replyMarkup: GetButtons());
+        }
+        public async void SubsDeleteProcess(int id)
+        {
+            account.Subs.RemoveAt(id);
+            _maCryptClient.UpdateAccount(account);
+            _ = await _client.SendTextMessageAsync(account.ChatId, "Подписка успешно удалена", replyMarkup: GetButtons());
         }
         public async void SubsProcess(object state)
         {
@@ -474,6 +415,7 @@ namespace TelegramBot
                 Console.WriteLine("There is your mistake:" + ex);
             }
         }
+
         private IReplyMarkup GetDeleteSub1Button()
         {
             List<InlineKeyboardButton> delete = new List<InlineKeyboardButton>();
