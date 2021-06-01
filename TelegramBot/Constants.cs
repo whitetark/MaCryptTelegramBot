@@ -6,7 +6,6 @@ namespace TelegramBot
 {
     public class Constants
     {
-
         public class MainMenu
         {
             public const string BUTTON_SETTINGS = "Мои настройки";

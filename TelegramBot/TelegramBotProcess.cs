@@ -18,6 +18,7 @@ namespace TelegramBot
         Account account;
         Account result;
         string recentCallBack;
+        string recentText;
         Timer timer;
         public TelegramBotProcess(string token)
         {
@@ -51,7 +52,7 @@ namespace TelegramBot
                                 {
                                     int num = 0;
                                     TimerCallback tm = new TimerCallback(SubsProcess);
-                                    timer = new Timer(tm, num, 0, 3600000);
+                                    timer = new Timer(tm, num, 0, 1800000);
                                 }
                             }
                         }
@@ -164,7 +165,6 @@ namespace TelegramBot
                                         recentCallBack = "";
                                         break;
                                 }
-                                await _client.SendTextMessageAsync(update.Message.Chat.Id, "O.o", replyMarkup: GetButtons());
                                 break;
                         }
                     }
@@ -462,10 +462,15 @@ namespace TelegramBot
                         _ = await _client.SendTextMessageAsync(account.ChatId, $"Alert! Похоже {s} за час упал на {response.delta_1h}%");
                         Console.ReadLine();
                     }
+                    recentText = "OkCoinLib";
                 }
             } catch (Exception ex)
             {
-                _ = await _client.SendTextMessageAsync(account.ChatId, "[Ошибка подписки]\nПростите, в данный момент сервис Coinlib не отвечает", replyMarkup: GetButtons());
+                if (recentText != "ExCoinlib")
+                {
+                    _ = await _client.SendTextMessageAsync(account.ChatId, "[Ошибка подписки]\nПростите, в данный момент сервис Coinlib не отвечает", replyMarkup: GetButtons());
+                    recentText = "ExCoinlib";
+                }
                 Console.WriteLine("There is your mistake:" + ex);
             }
         }

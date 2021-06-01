@@ -1,0 +1,9 @@
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\Settings.job
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\TelegramBot.exe
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\TelegramBot.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\TelegramBot.deps.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\TelegramBot.runtimeconfig.json
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\TelegramBot.pdb
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\Newtonsoft.Json.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\RestSharp.dll
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\publish\Telegram.Bot.dll

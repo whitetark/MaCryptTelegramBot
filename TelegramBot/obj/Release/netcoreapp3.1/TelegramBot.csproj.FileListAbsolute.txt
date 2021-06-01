@@ -15,3 +15,4 @@ C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\Tel
 C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.dll
 C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.pdb
 C:\Users\white\source\repos\MaCryptApi\TelegramBot\obj\Release\netcoreapp3.1\TelegramBot.genruntimeconfig.cache
+C:\Users\white\source\repos\MaCryptApi\TelegramBot\bin\Release\netcoreapp3.1\Settings.job
